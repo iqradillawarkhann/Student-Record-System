@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Student</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #0b1120, #020617);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 25px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: peachpuff;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 15px rgba(255, 200, 150, 0.3);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px rgba(255, 218, 185, 0.08),
+                0 0 60px rgba(255, 200, 150, 0.04);
+            width: 100%;
+            max-width: 450px;
+            animation: popIn 0.6s ease-in-out;
+        }
+
+        .form-card h2 {
+            margin-bottom: 30px;
+            text-align: center;
+            color: peachpuff;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 12px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            background: #1e293b;
+            color: white;
+            outline: none;
+        }
+
+        .form-group label {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+            color: #aaa;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background-color: #1e293b;
+            padding: 0 4px;
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: peachpuff;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(to right, peachpuff, #ffe0c1);
+            color: #0a0f2c;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 218, 185, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 218, 185, 0.5);
+        }
+
+        .success {
+            margin-top: 20px;
+            color: lightgreen;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeIn 0.7s ease;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.04);
+            color: peachpuff;
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 10px rgba(255, 200, 150, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        Add New Student
+    </header>
+
+    <main>
+        <div class="form-card">
+            <h2>Enter Student Details</h2>
+            <form id="studentForm">
+                <div class="form-group">
+                    <input type="text" id="name" required placeholder=" " />
+                    <label for="name">Student Name</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="id" required placeholder=" " />
+                    <label for="id">Student ID</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="grade" required placeholder=" " />
+                    <label for="grade">Grade</label>
+                </div>
+
+                <button type="submit" class="btn">Add Student</button>
+                <div id="message" class="success" style="display: none;"> Student added!</div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        built by Iqra Dillawar Khan – © 2025
+    </footer>
+
+    <script>
+        const form = document.getElementById('studentForm');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const id = document.getElementById('id').value.trim();
+            const grade = document.getElementById('grade').value.trim();
+
+            if (!name || !id || !grade) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const student = { name, id, grade };
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            students.push(student);
+            localStorage.setItem('students', JSON.stringify(students));
+
+            form.reset();
+            message.style.display = 'block';
+
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 2000);
+        });
+    </script>
+</body>
+
+</html>

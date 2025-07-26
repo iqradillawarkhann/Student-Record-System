@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Student</title>
+    <style>
+        body {
+            background: radial-gradient(circle at top, #0a0f2c, #020617);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: rgba(0, 0, 50, 0.8);
+            padding: 20px;
+            text-align: center;
+            font-size: 2rem;
+            color: peachpuff;
+            box-shadow: 0 0 15px rgba(255, 200, 150, 0.4);
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        main {
+            flex: 1;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 400px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            background: #1e293b;
+            color: white;
+            outline: none;
+        }
+
+        table {
+            width: 100%;
+            max-width: 800px;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 218, 185, 0.08);
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #334155;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1e293b;
+            color: peachpuff;
+        }
+
+        td {
+            color: #e2e8f0;
+        }
+
+        footer {
+            background: rgba(10, 10, 30, 0.8);
+            text-align: center;
+            padding: 15px;
+            color: peachpuff;
+            font-size: 0.9rem;
+            margin-top: auto;
+            box-shadow: 0 -2px 10px rgba(255, 200, 150, 0.2);
+        }
+
+        .no-results {
+            color: peachpuff;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        Search Student
+    </header>
+
+    <main>
+        <input type="text" id="searchInput" placeholder="Search by Name or ID" onkeyup="searchStudent()" />
+
+        <table id="resultsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Results will go here -->
+            </tbody>
+        </table>
+
+        <div id="noResults" class="no-results" style="display: none;">
+            No matching students found.
+        </div>
+    </main>
+
+    <footer>
+        © 2025 Student Record System – Iqra Dillawar Khan
+    </footer>
+
+    <script>
+        const students = JSON.parse(localStorage.getItem('students')) || [];
+        const input = document.getElementById('searchInput');
+        const table = document.getElementById('resultsTable');
+        const tbody = table.querySelector('tbody');
+        const noResults = document.getElementById('noResults');
+
+        function searchStudent() {
+            const keyword = input.value.trim().toLowerCase();
+            tbody.innerHTML = "";
+
+            if (!keyword) {
+                table.style.display = "none";
+                noResults.style.display = "none";
+                return;
+            }
+
+            const filtered = students.filter(s =>
+                s.name.toLowerCase().includes(keyword) ||
+                s.id.toLowerCase().includes(keyword)
+            );
+
+            if (filtered.length === 0) {
+                table.style.display = "none";
+                noResults.style.display = "block";
+                return;
+            }
+
+            filtered.forEach(s => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+          <td>${s.name}</td>
+          <td>${s.id}</td>
+          <td>${s.grade}</td>
+        `;
+                tbody.appendChild(row);
+            });
+
+            noResults.style.display = "none";
+            table.style.display = "table";
+        }
+    </script>
+</body>
+
+</html>
